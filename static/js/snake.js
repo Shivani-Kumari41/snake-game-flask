@@ -1,11 +1,8 @@
-const canvas = document.getElementById("gameCanvas");
-if (!canvas) {
-    console.error("Canvas element nahi mila! HTML check karo.");
-}
-const ctx = canvas.getContext("2d");
+// Variable declarations
 let box = 20;
 let snake, food, d, score, speed, gameInterval;
 let isGameOver = false;
+let canvas, ctx;
 
 function initGame() {
     snake = [{ x: 9 * box, y: 10 * box }];
@@ -15,21 +12,6 @@ function initGame() {
     speed = 150;
     isGameOver = false;
 }
-
-// Ensure event listeners are defined OUTSIDE functions
-document.addEventListener("keydown", (e) => {
-    if(e.keyCode == 37 && d != "RIGHT") d = "LEFT";
-    else if(e.keyCode == 38 && d != "DOWN") d = "UP";
-    else if(e.keyCode == 39 && d != "LEFT") d = "RIGHT";
-    else if(e.keyCode == 40 && d != "UP") d = "DOWN";
-});
-
-canvas.addEventListener("click", () => {
-    if (isGameOver) {
-        initGame();
-        gameInterval = setInterval(draw, speed);
-    }
-});
 
 function draw() {
     ctx.fillStyle = "black";
@@ -63,7 +45,6 @@ function draw() {
     if (d) {
         let snakeX = snake[0].x;
         let snakeY = snake[0].y;
-
         if (d == "LEFT") snakeX -= box;
         if (d == "UP") snakeY -= box;
         if (d == "RIGHT") snakeX += box;
@@ -87,9 +68,25 @@ function draw() {
     }
 }
 
-// Pura code waisa hi rehne dein, bas sabse niche se ye hatakar ye daal dein:
+// Event Listeners
+document.addEventListener("keydown", (e) => {
+    if(e.keyCode == 37 && d != "RIGHT") d = "LEFT";
+    else if(e.keyCode == 38 && d != "DOWN") d = "UP";
+    else if(e.keyCode == 39 && d != "LEFT") d = "RIGHT";
+    else if(e.keyCode == 40 && d != "UP") d = "DOWN";
+});
 
 window.onload = function() {
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    
+    canvas.addEventListener("click", () => {
+        if (isGameOver) {
+            initGame();
+            gameInterval = setInterval(draw, speed);
+        }
+    });
+
     initGame();
     gameInterval = setInterval(draw, speed);
 };
