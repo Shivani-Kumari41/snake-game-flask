@@ -7,7 +7,8 @@ let food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.ran
 let d;
 let message = "";
 let score = 0;
-let speed = 150; // Starting speed (Zyada number = Slow speed)
+let speed = 150;
+let gameInterval; // Variable declare kiya
 
 function changeDirection(newDir) {
     if (newDir == "LEFT" && d != "RIGHT") d = "LEFT";
@@ -22,12 +23,6 @@ document.addEventListener("keydown", (e) => {
     else if(e.keyCode == 39) changeDirection("RIGHT");
     else if(e.keyCode == 40) changeDirection("DOWN");
 });
-
-// Game loop ko manage karne ke liye function
-function gameLoop() {
-    draw();
-    setTimeout(gameLoop, speed);
-}
 
 function draw() {
     ctx.fillStyle = "black";
@@ -48,7 +43,6 @@ function draw() {
     ctx.fillStyle = "white";
     ctx.font = "18px Arial";
     ctx.fillText("Score: " + score, 10, 25);
-    ctx.fillText(message, 150, 25);
 
     if (d) {
         let snakeX = snake[0].x;
@@ -61,19 +55,17 @@ function draw() {
 
         if (snakeX == food.x && snakeY == food.y) {
             score++;
-            // Har food ke baad speed badhayein (Speed kam hogi toh game fast hoga)
-            if (speed > 50) speed -= 5; 
-            
+            if (speed > 50) speed -= 5;
             food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
-            message = "Good!";
-            setTimeout(() => message = "", 1000);
         } else {
             snake.pop();
         }
 
+        // Game Over logic
         if (snakeX < 0 || snakeX >= 400 || snakeY < 0 || snakeY >= 400) {
-            alert("Game Over! Score: " + score);
-            location.reload();
+            clearInterval(gameInterval); // Loop band karein
+            alert("Game Over! Final Score: " + score);
+            location.reload(); // Page refresh = Full Reset
         }
 
         let newHead = { x: snakeX, y: snakeY };
@@ -81,20 +73,5 @@ function draw() {
     }
 }
 
-// Game shuru karein
-gameLoop();
-
-
-
-
-// Game Over hone par ye function call karein
-function gameOver() {
-    alert("Game Over! Score: " + score);
-    // Game ko reset karne ka logic
-    snake = [{x: 10, y: 10}]; 
-    score = 0;
-    direction = 'right';
-    // Game loop ko wapas shuru karein
-    clearInterval(gameInterval);
-    gameInterval = setInterval(drawGame, 100); 
-}
+// Game loop shuru karein
+gameInterval = setInterval(draw, speed);
