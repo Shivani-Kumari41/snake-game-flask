@@ -85,6 +85,9 @@ function draw() {
     }
 }
 
-// Game shuru karne ka trigger
-initGame();
-gameInterval = setInterval(draw, speed);
+// Pura code waisa hi rehne dein, bas sabse niche se ye hatakar ye daal dein:
+
+window.onload = function() {
+    initGame();
+    gameInterval = setInterval(draw, speed);
+};
