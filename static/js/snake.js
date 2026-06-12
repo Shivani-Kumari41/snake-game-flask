@@ -1,6 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
+if (!canvas) {
+    console.error("Canvas element nahi mila! HTML check karo.");
+}
 const ctx = canvas.getContext("2d");
-
 let box = 20;
 let snake, food, d, score, speed, gameInterval;
 let isGameOver = false;
