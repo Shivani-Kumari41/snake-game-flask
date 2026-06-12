@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shivi's Snake Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Snake Game 🐍</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <div class="controls">
+        <button onclick="changeDirection('UP')">UP</button><br>
+        <button onclick="changeDirection('LEFT')">LEFT</button>
+        <button onclick="changeDirection('RIGHT')">RIGHT</button><br>
+        <button onclick="changeDirection('DOWN')">DOWN</button>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/snake.js') }}"></script>
+</body>
+</html>
