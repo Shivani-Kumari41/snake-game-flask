@@ -83,3 +83,18 @@ function draw() {
 
 // Game shuru karein
 gameLoop();
+
+
+
+
+// Game Over hone par ye function call karein
+function gameOver() {
+    alert("Game Over! Score: " + score);
+    // Game ko reset karne ka logic
+    snake = [{x: 10, y: 10}]; 
+    score = 0;
+    direction = 'right';
+    // Game loop ko wapas shuru karein
+    clearInterval(gameInterval);
+    gameInterval = setInterval(drawGame, 100); 
+}
