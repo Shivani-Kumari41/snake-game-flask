@@ -2,27 +2,24 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 let box = 20;
-let snake = [{ x: 9 * box, y: 10 * box }];
-let food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
-let d;
-let message = "";
-let score = 0;
-let speed = 150;
-let gameInterval; // Variable declare kiya
+let snake, food, d, score, speed, gameInterval;
 
-function changeDirection(newDir) {
-    if (newDir == "LEFT" && d != "RIGHT") d = "LEFT";
-    else if (newDir == "UP" && d != "DOWN") d = "UP";
-    else if (newDir == "RIGHT" && d != "LEFT") d = "RIGHT";
-    else if (newDir == "DOWN" && d != "UP") d = "DOWN";
+// Game initialize karne ka function
+function initGame() {
+    snake = [{ x: 9 * box, y: 10 * box }];
+    food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
+    d = undefined;
+    score = 0;
+    speed = 150;
 }
 
-document.addEventListener("keydown", (e) => {
-    if(e.keyCode == 37) changeDirection("LEFT");
-    else if(e.keyCode == 38) changeDirection("UP");
-    else if(e.keyCode == 39) changeDirection("RIGHT");
-    else if(e.keyCode == 40) changeDirection("DOWN");
-});
+function resetGame() {
+    initGame();
+    clearInterval(gameInterval);
+    gameInterval = setInterval(draw, speed);
+}
+
+// ... (changeDirection aur eventListener waise hi rehne dein) ...
 
 function draw() {
     ctx.fillStyle = "black";
@@ -61,11 +58,11 @@ function draw() {
             snake.pop();
         }
 
-        // Game Over logic
         if (snakeX < 0 || snakeX >= 400 || snakeY < 0 || snakeY >= 400) {
-            clearInterval(gameInterval); // Loop band karein
-            alert("Game Over! Final Score: " + score);
-            location.reload(); // Page refresh = Full Reset
+            clearInterval(gameInterval);
+            alert("Game Over! Score: " + score);
+            resetGame();
+            return;
         }
 
         let newHead = { x: snakeX, y: snakeY };
@@ -73,5 +70,6 @@ function draw() {
     }
 }
 
-// Game loop shuru karein
+// Pehli baar game shuru karein
+initGame();
 gameInterval = setInterval(draw, speed);
