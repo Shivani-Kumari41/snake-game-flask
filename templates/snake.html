@@ -2,26 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shivi's Snake Game</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Shivi Snake Game</title>
+    <style>
+        body { background-color: #2c3e50; text-align: center; color: white; font-family: Arial; }
+        canvas { border: 5px solid white; background-color: black; margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h1>Snake Game 🐍</h1>
+    <h1>Shivi's Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
     
-    <div id="game-container">
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        
-        <div class="controls">
-            <button onclick="changeDirection('UP')">UP</button><br>
-            <button onclick="changeDirection('LEFT')">LEFT</button>
-            <button onclick="changeDirection('RIGHT')">RIGHT</button><br>
-            <button onclick="changeDirection('DOWN')">DOWN</button>
-        </div>
-        
-        <br>
-        <button onclick="location.reload()">Play Again</button>
-    </div>
-    
-    <script src="{{ url_for('static', filename='js/snake.js') }}"></script>
+    <script src="{{ url_for('static', filename='snake.js') }}"></script>
 </body>
 </html>

@@ -3,27 +3,44 @@ const ctx = canvas.getContext("2d");
 
 let box = 20;
 let snake, food, d, score, speed, gameInterval;
+let isGameOver = false;
 
-// Game initialize karne ka function
 function initGame() {
     snake = [{ x: 9 * box, y: 10 * box }];
     food = { x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box };
     d = undefined;
     score = 0;
     speed = 150;
+    isGameOver = false;
 }
 
-function resetGame() {
-    initGame();
-    clearInterval(gameInterval);
-    gameInterval = setInterval(draw, speed);
-}
+// Ensure event listeners are defined OUTSIDE functions
+document.addEventListener("keydown", (e) => {
+    if(e.keyCode == 37 && d != "RIGHT") d = "LEFT";
+    else if(e.keyCode == 38 && d != "DOWN") d = "UP";
+    else if(e.keyCode == 39 && d != "LEFT") d = "RIGHT";
+    else if(e.keyCode == 40 && d != "UP") d = "DOWN";
+});
 
-// ... (changeDirection aur eventListener waise hi rehne dein) ...
+canvas.addEventListener("click", () => {
+    if (isGameOver) {
+        initGame();
+        gameInterval = setInterval(draw, speed);
+    }
+});
 
 function draw() {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 400, 400);
+
+    if (isGameOver) {
+        ctx.fillStyle = "white";
+        ctx.font = "40px Arial";
+        ctx.fillText("Game Over!", 90, 180);
+        ctx.font = "20px Arial";
+        ctx.fillText("Click to Restart", 125, 230);
+        return;
+    }
 
     for (let i = 0; i < snake.length; i++) {
         ctx.fillStyle = (i == 0) ? "#27ae60" : "#2ecc71";
@@ -60,9 +77,7 @@ function draw() {
 
         if (snakeX < 0 || snakeX >= 400 || snakeY < 0 || snakeY >= 400) {
             clearInterval(gameInterval);
-            alert("Game Over! Score: " + score);
-            resetGame();
-            return;
+            isGameOver = true;
         }
 
         let newHead = { x: snakeX, y: snakeY };
@@ -70,6 +85,6 @@ function draw() {
     }
 }
 
-// Pehli baar game shuru karein
+// Game shuru karne ka trigger
 initGame();
 gameInterval = setInterval(draw, speed);
